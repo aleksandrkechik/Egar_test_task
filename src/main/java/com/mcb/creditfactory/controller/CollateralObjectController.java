@@ -17,6 +17,7 @@ public class CollateralObjectController {
     @PostMapping("/collateral/save")
     public HttpEntity<Long> save(@RequestBody Collateral object) {
         Long id = service.saveCollateral(object);
+        System.out.println("Successfully added. ID is: " + id);
         return id != null ? ResponseEntity.ok(id) : ResponseEntity.badRequest().build();
     }
 

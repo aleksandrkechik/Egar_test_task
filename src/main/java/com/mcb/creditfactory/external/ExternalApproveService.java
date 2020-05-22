@@ -28,7 +28,6 @@ public class ExternalApproveService {
             case AIRPLANE: code = approvePlane(object); break;
             default: code = -100;
         }
-
         return code;
     }
 

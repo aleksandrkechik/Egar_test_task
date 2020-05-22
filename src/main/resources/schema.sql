@@ -13,6 +13,7 @@ create table AIRPLANE (
   model VARCHAR2(200),
   manufacturer VARCHAR2(500),
   year_of_issue YEAR,
-  fuelCapacity INT,
-  seats INT
+  fuel_Capacity INT,
+  seats INT,
+  assessed_value DEC(20)
 );
