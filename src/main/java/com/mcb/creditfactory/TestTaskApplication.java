@@ -1,6 +1,5 @@
 package com.mcb.creditfactory;
 
-import com.google.gson.Gson;
 
 import com.mcb.creditfactory.dto.CarDto;
 import com.mcb.creditfactory.model.Car;
