@@ -17,3 +17,11 @@ create table AIRPLANE (
   seats INT,
   assessed_value DEC(20)
 );
+
+create table VALUATIONS (
+    id IDENTITY primary key,
+    transport_Id int,
+	valuation_Date DATE,
+	value DEC(20),
+	dtype varchar(100)
+);

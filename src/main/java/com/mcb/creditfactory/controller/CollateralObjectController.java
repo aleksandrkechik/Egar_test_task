@@ -17,7 +17,6 @@ public class CollateralObjectController {
     @PostMapping("/collateral/save")
     public HttpEntity<Long> save(@RequestBody Collateral object) {
         Long id = service.saveCollateral(object);
-        System.out.println("Successfully added. ID is: " + id);
         return id != null ? ResponseEntity.ok(id) : ResponseEntity.badRequest().build();
     }
 
@@ -25,5 +24,12 @@ public class CollateralObjectController {
     public HttpEntity<Collateral> getInfo(@RequestBody Collateral object) {
         Collateral info = service.getInfo(object);
         return info != null ? ResponseEntity.ok(info) : ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("collateral/addValuation")
+    public HttpEntity<Long> addValuation(@RequestBody Collateral object)
+    {
+        Long id = service.addValuation(object);
+        return id != null ? ResponseEntity.ok(id) : ResponseEntity.notFound().build();
     }
 }

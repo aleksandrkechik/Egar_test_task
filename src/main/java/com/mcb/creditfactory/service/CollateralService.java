@@ -1,24 +1,26 @@
 package com.mcb.creditfactory.service;
 
-import com.mcb.creditfactory.dto.AirplaneDto;
-import com.mcb.creditfactory.dto.CarDto;
-import com.mcb.creditfactory.dto.Collateral;
-import com.mcb.creditfactory.dto.Dto;
-import com.mcb.creditfactory.external.CollateralType;
-import com.mcb.creditfactory.model.Airplane;
-import com.mcb.creditfactory.model.Car;
+import com.mcb.creditfactory.dto.*;
 import com.mcb.creditfactory.model.Transport;
+import com.mcb.creditfactory.model.Valuation;
 import com.mcb.creditfactory.service.transport.AirplaneService;
 import com.mcb.creditfactory.service.transport.CarService;
-import com.mcb.creditfactory.service.transport.GenericAdapter;
 import com.mcb.creditfactory.service.transport.GenericService;
+import com.mcb.creditfactory.service.valuations.AirplaneValuationService;
+import com.mcb.creditfactory.service.valuations.CarValuationService;
+import com.mcb.creditfactory.service.valuations.ValuationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.Optional;
 
 // TODO: reimplement this
+
+/**
+ * Reimplemented Collateral service. Now it is able to pick a specific
+ * service and adapter for each given transport. To support a new kind of transport, you just need
+ * to add a switch case.
+ */
 @Service
 public class CollateralService {
 	@Autowired
@@ -26,6 +28,12 @@ public class CollateralService {
 
 	@Autowired
 	private AirplaneService airplaneService;
+
+	@Autowired
+	private CarValuationService carValuationService;
+
+	@Autowired
+	private AirplaneValuationService airplaneValuationService;
 
 	@SuppressWarnings("ConstantConditions")
 	public Long saveCollateral(Collateral object) {
@@ -49,22 +57,11 @@ public class CollateralService {
 	}
 
 	private <T extends Dto, E extends Transport> Long saveCollateral(T dto, GenericService<E, T> s) {
-//		return Optional.of(dto)
-//				.map(s::fromDto)
-//				.map(s::save)
-//				.map(s::getId)
-//				.orElse(null);
-
-		Optional<T> temp1 = Optional.of(dto);
-		Optional<E> temp2 = temp1.map(s::fromDto);
-		Optional<E> temp3 = temp2.map(s::save);
-		Optional<Long> temp4 = temp3.map(s::getId);
-		return temp4.orElse(null);
-/*		return Optional.of(dto)
+		return Optional.of(dto)
 				.map(s::fromDto)
 				.map(s::save)
 				.map(s::getId)
-				.orElse(null);*/
+				.orElse(null);
 	}
 
 	public Collateral getInfo(Collateral object) {
@@ -94,5 +91,45 @@ public class CollateralService {
 				.flatMap(s::load)
 				.map(s::toDTO)
 				.orElse(null);
+	}
+
+	public Long addValuation (Collateral object)
+	{
+		if (!(object instanceof ValuationDto)) {
+			throw new IllegalArgumentException();
+		}
+		if (!checkDataExistence(object)) {
+			throw new IllegalArgumentException();
+		}
+		ValuationDto valuation = (ValuationDto)object;
+		if (valuation instanceof CarValuationDto) {
+			if (!carValuationService.approve((CarValuationDto)valuation))
+				return null;
+			return add((CarValuationDto) valuation, carValuationService);
+		}
+		else if (valuation instanceof AirplaneValuationDto) {
+			if (!airplaneValuationService.approve((AirplaneValuationDto)valuation))
+				return null;
+			return add((AirplaneValuationDto) valuation, airplaneValuationService);
+		}
+		else
+			return null;
+	}
+
+	public <T extends ValuationDto, E extends Valuation> Long add (T dto, ValuationService<E, T> s) {
+		return Optional.of(dto)
+				.map(s::fromDto)
+				.map(s::save)
+				.map(s::getId)
+				.orElse(null);
+	}
+
+
+	public boolean checkDataExistence(Collateral object) {
+		ValuationDto valuation = (ValuationDto)object;
+		if (object instanceof CarValuationDto)
+			return carService.getRepository().findById(valuation.transportId).isPresent();
+		else
+			return airplaneService.getRepository().findById(valuation.transportId).isPresent();
 	}
 }

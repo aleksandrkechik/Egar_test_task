@@ -7,6 +7,13 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
+/**
+ * Abstract class for a transport. In order to implement new transport type
+ * you need to make an extending class and corresponding valuation DTO.
+ * To add new transports valuations to the valuation table you need to create a specific valuation repository
+ * and make your valuation extend an abstract Valuation class.
+ */
+
 @Data
 @NoArgsConstructor
 @MappedSuperclass

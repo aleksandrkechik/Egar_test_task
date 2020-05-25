@@ -4,12 +4,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
-//@AllArgsConstructor
 @Entity
 @Table(name = "AIRPLANE")
 public class Airplane extends Transport{

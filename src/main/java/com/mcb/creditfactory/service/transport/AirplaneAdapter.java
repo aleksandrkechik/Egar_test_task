@@ -1,9 +1,7 @@
 package com.mcb.creditfactory.service.transport;
 
 import com.mcb.creditfactory.dto.AirplaneDto;
-import com.mcb.creditfactory.dto.CarDto;
 import com.mcb.creditfactory.external.CollateralType;
-import com.mcb.creditfactory.model.Airplane;
 import lombok.AllArgsConstructor;
 
 import java.math.BigDecimal;

@@ -1,13 +1,8 @@
 package com.mcb.creditfactory.service.transport;
 
 import com.mcb.creditfactory.dto.Dto;
-import com.mcb.creditfactory.external.CollateralType;
 import com.mcb.creditfactory.external.ExternalApproveService;
-import com.mcb.creditfactory.model.Airplane;
-import com.mcb.creditfactory.model.Car;
 import com.mcb.creditfactory.model.Transport;
-import com.mcb.creditfactory.repository.AirplaneRepository;
-import com.mcb.creditfactory.repository.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;

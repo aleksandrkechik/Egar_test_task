@@ -1,7 +1,6 @@
 package com.mcb.creditfactory.service.transport;
 
 import com.mcb.creditfactory.dto.CarDto;
-import com.mcb.creditfactory.dto.Dto;
 import com.mcb.creditfactory.model.Car;
 import com.mcb.creditfactory.repository.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
